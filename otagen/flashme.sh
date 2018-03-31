@@ -2,7 +2,7 @@
 ## OTA setup
 # begin properties
 properties() {
-kernel.string=Custom kernel @ 4pda
+kernel.string=1.5
 do.devicecheck=1
 do.modules=0
 do.cleanup=1

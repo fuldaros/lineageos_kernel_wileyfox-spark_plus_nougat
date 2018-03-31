@@ -1,5 +1,4 @@
 #!/sbin/sh
-
 OUTFD=/proc/self/fd/$2;
 ZIPFILE="$3";
 DIR=`dirname "$ZIPFILE"`;
@@ -57,11 +56,23 @@ if [ -f /tmp/otapack/banner ]; then
     ui_print "$line";
   done < /tmp/otapack/banner;
 fi;
-
-ui_print "$(file_getprop /tmp/otapack/flashme.sh kernel.string)";
-ui_print "Paper Plane Kernel 1.5";
-ui_print "by fuldaros";
-ui_print "$(cat /tmp/otapack/time)";
+device=$(sed -n 14p /tmp/otapack/author.prop);
+cpu=$(sed -n 10p /tmp/otapack/author.prop);
+cpum=$(sed -n 12p /tmp/otapack/author.prop);
+author=$(sed -n 2p /tmp/otapack/author.prop);
+bh=$(sed -n 8p /tmp/otapack/author.prop);
+arch=$(sed -n 4p /tmp/otapack/author.prop);
+bt=$(sed -n 16p /tmp/otapack/author.prop);
+ui_print "******************************";
+ui_print "Info:";
+ui_print "  Author: "$author"";
+ui_print "  Host: "$bh"";
+ui_print "  ARCH: "$arch"";
+ui_print "  CPU: "$cpum" "$cpu"";
+ui_print "  Device: "$device"";
+ui_print "  PP ver: $(file_getprop /tmp/otapack/flashme.sh kernel.string)";
+ui_print "  Build time: "$bt"";
+ui_print "******************************";
 umount /system 2>/dev/null;
 umount /vendor 2>/dev/null;
 mount -o ro -t auto /system;
@@ -74,7 +85,6 @@ if [ "$(file_getprop /tmp/otapack/flashme.sh do.devicecheck)" == 1 ]; then
   for i in 1 2 3 4 5; do
     testname="$(file_getprop /tmp/otapack/flashme.sh device.name$i)";
     if [ "$(getprop ro.product.device)" == "$testname" -o "$(getprop ro.build.product)" == "$testname" ]; then
-      ui_print "$testname";
       match=1;
     fi;
   done;

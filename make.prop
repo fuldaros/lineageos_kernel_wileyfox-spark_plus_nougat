@@ -1,0 +1,14 @@
+// YOUR NAME
+fuldaros
+// ARCH
+arm64
+// DEFCONFIG NAME
+porridge_pp_defconfig
+// BUILD HOST
+hhost
+// CPU
+mt6735
+// CPU Manufacter
+Mediatek
+// Device
+Spark
