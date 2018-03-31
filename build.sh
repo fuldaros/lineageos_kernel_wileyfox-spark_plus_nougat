@@ -23,7 +23,7 @@ read pwd < pwd.dat
 rm -f pwd.dat
 export CROSS_COMPILE="$pwd"/tools/bin/aarch64-linux-gnu-
 cd sources/
-echo -e "$g Подождите...ядро собирается :3$y"
+echo -e "$g Внимание, подождите. Наводим Тополь-M на Соедененные Штаты Америки. Терпения, друзья! :3$y"
 strt=$(date +"%s")
 make -j3 O=../out/paperplane Image.gz-dtb > ../outkernel/"$logb"
 clear
@@ -33,22 +33,23 @@ $cy*           Automatic kernel builder v0.4          *
 $cy*                   by fuldaros                    *
 $cy****************************************************
 $y";  
-echo -e "$g Копирую ядро...$y"
+echo -e "$g Идет обратый отсчет.$y"
 cat ../out/paperplane/arch/arm64/boot/Image.gz-dtb > ../outkernel/"$kernel"
 rm -rf ../out/paperplane/arch/arm64/boot/
 cd ../
-echo -e "$g Собираю zip пакет...$y"
+echo -e "$g Пуск. Тополь-М приближается к цели...$y"
 rm -f otagen/zImage
 cat outkernel/"$kernel" > otagen/zImage
 cd otagen
 echo "ZIP file is generated automatically by fuldaros script on "$stamp"" > generated.info
 echo "build on "$stamp"" > time
 zip -r ../outzip/"$otazip".zip *
-echo -e "$g OTA Package created! Name: "$otazip"$y"
+echo -e "$g Поздравляем, Соедененные Штаты Америки стерты с лица земли.
+ Подробности в этом архиве. "$otazip"$y"
 rm -f zImage
 rm -f generated.info
 rm -f time
 end=$(date +"%s")
 diff=$(( $end - $strt ))
-echo Success!
-echo -e "$m Сборка заняла "$diff" секунд!"
+echo Операция выполнена успешно!
+echo -e "$m Полет Тополь-M до цели занял "$diff" секунд!"
