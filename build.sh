@@ -1,31 +1,52 @@
 #!/bin/bash
 # by fuldaros
-set -e
-stamp=$(date +"%Y%m%d-%H%M");
+clear
+e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";m=$e"95;01m";
+echo -e "
+$cy****************************************************
+$cy*           Automatic kernel builder v0.4          *
+$cy*                   by fuldaros                    *
+$cy****************************************************
+$y";     
+set -e 
+stamp=$(date +"%d.%m.%Y %H:%M");
 kernel=paperplane_"$stamp";
 logb=logb_"$stamp";
 otazip=ota_pp_"$stamp";
 export ARCH=arm64
 export TARGET_ARCH=arm64
 export KBUILD_BUILD_USER=fuldaros
-export KBUILD_BUILD_HOST=hhost
+export KBUILD_BUILD_HOST=hhost#1
+rm -rf out/paperplane/include/generated/compile.h
 pwd > pwd.dat
 read pwd < pwd.dat
 rm -f pwd.dat
 export CROSS_COMPILE="$pwd"/tools/bin/aarch64-linux-gnu-
 cd sources/
-echo "#### made by fuldaros ####"
-echo "Подождите...ядро собирается :3"
+echo -e "$g Подождите...ядро собирается :3$y"
+strt=$(date +"%s")
 make -j3 O=../out/paperplane Image.gz-dtb > ../outkernel/"$logb"
-echo "Копирую ядро..."
+clear
+echo -e "
+$cy****************************************************
+$cy*           Automatic kernel builder v0.4          *
+$cy*                   by fuldaros                    *
+$cy****************************************************
+$y";  
+echo -e "$g Копирую ядро...$y"
 cat ../out/paperplane/arch/arm64/boot/Image.gz-dtb > ../outkernel/"$kernel"
 rm -rf ../out/paperplane/arch/arm64/boot/
 cd ../
-echo "Собираю zip пакет..."
+echo -e "$g Собираю zip пакет...$y"
 rm -f anykernel2/zImage
 cat outkernel/"$kernel" > anykernel2/zImage
 cd anykernel2
+echo "ZIP file is generated automatically by fuldaros script on "$stamp"" > generated.info
 zip -r ../outzip/"$otazip".zip *
-echo "OTA Pack created! Name: "$otazip""
+echo -e "$g OTA Package created! Name: "$otazip"$y"
 rm -f zImage
+rm -f generated.info
+end=$(date +"%s")
+diff=$(( $end - $strt ))
 echo Success!
+echo -e "$m Сборка заняла "$diff" секунд!"
