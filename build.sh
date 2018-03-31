@@ -38,14 +38,16 @@ cat ../out/paperplane/arch/arm64/boot/Image.gz-dtb > ../outkernel/"$kernel"
 rm -rf ../out/paperplane/arch/arm64/boot/
 cd ../
 echo -e "$g Собираю zip пакет...$y"
-rm -f anykernel2/zImage
-cat outkernel/"$kernel" > anykernel2/zImage
-cd anykernel2
+rm -f otagen/zImage
+cat outkernel/"$kernel" > otagen/zImage
+cd otagen
 echo "ZIP file is generated automatically by fuldaros script on "$stamp"" > generated.info
+echo "build on "$stamp"" > time
 zip -r ../outzip/"$otazip".zip *
 echo -e "$g OTA Package created! Name: "$otazip"$y"
 rm -f zImage
 rm -f generated.info
+rm -f time
 end=$(date +"%s")
 diff=$(( $end - $strt ))
 echo Success!
