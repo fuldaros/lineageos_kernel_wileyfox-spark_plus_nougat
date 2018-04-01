@@ -1,13 +1,14 @@
 #!/bin/bash
 # by fuldaros
+ver=$(sed -n 2p tools/akb.prop);
 clear
 e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";m=$e"95;01m";
 echo -e "
 $cy****************************************************
-$cy*           Automatic kernel builder v0.4          *
+$cy*           Automatic kernel builder v"$ver"          *
 $cy*                   by fuldaros                    *
 $cy****************************************************
-$y";     
+$r!!! Пожалуйста, уважайте чужой труд и не меняйте имя автора на свое <3 !!! $y";     
 set -e
 author=$(sed -n 2p make.prop);
 bh=$(sed -n 8p make.prop);
@@ -26,7 +27,7 @@ export KBUILD_BUILD_USER="$author"
 export KBUILD_BUILD_HOST="$bh"
 echo -e "$cy******************************$y"
 echo -e "$g   Build info";
-echo -e "$y Author: "$author"
+echo -e "$y User: "$author"
  Host: "$bh"
  ARCH: "$arch"
  CPU: "$cpum" "$cpu"
@@ -46,7 +47,7 @@ make -j3 O=../out/paperplane Image.gz-dtb > ../outkernel/"$logb"
 clear
 echo -e "
 $cy****************************************************
-$cy*           Automatic kernel builder v0.4          *
+$cy*           Automatic kernel builder v"$ver"          *
 $cy*                   by fuldaros                    *
 $cy****************************************************
 $y";  
@@ -61,6 +62,8 @@ cd otagen
 echo "ZIP file is generated automatically by fuldaros script on "$stamp"" > generated.info
 cat ../make.prop > author.prop
 echo -e "//BUILD TIME" "\n""$stampt" >> author.prop
+echo -e "// Automatic kernel builder ver. (DONT EDIT)" >> author.prop
+echo -e "$ver" >> author.prop
 zip -r ../outzip/"$otazip".zip *
 echo -e "$g Поздравляем, Соедененные Штаты Америки стерты с лица земли.
  Подробности в этом архиве. "$otazip".zip$y"
