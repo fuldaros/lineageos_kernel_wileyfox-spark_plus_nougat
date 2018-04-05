@@ -1,13 +1,7 @@
-ubuntu:
-  image: ubuntu:xenial
+  language: make
   script:
-  - apt-get update -qyy
-  - apt-get install -qyy git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip
-  - cd tools/
-  - rm -rf gcc4/
-  - git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
-  - mv aarch64-linux-android-4.9/ gcc4/
-  - cd ../
-  - ls -l tools/gcc4/
-  - rm -rf /sources/arch/arm64/include/generated
-  - ./prebuilt.sh
+    - export TERM=xterm
+    - apt-get update -qyy
+    - apt-get install -qyy curl bc make git build-essential
+    - apt-get --yes install libglib2.0-dev httpie curl flex g++-multilib gcc-multilib gnupg gperf lib32ncurses5-dev lib32z1-dev libesd0-dev libncurses5-dev libsdl1.2-dev libwxgtk-media3.0-dev libxml2 libxml2-utils lzop pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev
+    - bash ./prebuilt.sh
